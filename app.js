@@ -6,6 +6,7 @@ const database = path.join(__dirname, "todoApplication.db");
 const format = require("date-fns/format");
 const valid = require("date-fns/isValid");
 const app = express();
+app.use(express.json())
 let db = null;
 const intializedbserver = async () => {
   try {
