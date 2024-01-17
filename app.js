@@ -149,7 +149,7 @@ app.get("/todos/:todoId/", async (request, response) => {
 });
 app.get("/agenda/", async (request, response) => {
   const { date } = request.query;
-  if (date === undefined || valid(new Date(date))) {
+  if (date !== undefined && valid(new Date(date))) {
     const newDate = format(new Date(date), "yyyy-MM-dd");
     const todotask = `select * from todo where due_date='${newDate}';`;
   const res = await db.all(todotask);
@@ -160,12 +160,12 @@ app.get("/agenda/", async (request, response) => {
   }
 });
 app.post("/todos/", async (request, response) => {
-  const {id, todo, category, priority, status, dueDate} = request.body;
+  const {id, todo, category, priority, status, due_date} = request.body;
   if (priority === 'HIGH' || priority === 'LOW' || priority === 'MEDIUM') {
     if (category === 'WORK' || category === 'HOME' || category === 'LEARNING') {
       if (status === 'TO DO' || status === 'IN PROGRESS' || status === 'DONE') {
-        if (valid(new Date(dueDate))) {
-          const newDate = format(new Date(dueDate),"yyyy-MM-dd");
+        if (due_date !== undefined && valid(new Date(due_date))) {
+          const newDate = format(new Date(due_date),"yyyy-MM-dd");
           const addTodo = `insert into todo(id, todo, priority, status, category, due_date) values (${id}, '${todo}', '${priority}', '${status}', '${category}', '${newDate}');`;
           await db.run(addTodo)
           response.send('Todo Successfully Added');
