@@ -64,7 +64,7 @@ const eachtodotask = (eachtodo) => {
 app.get("/todos/", async (request, response) => {
   let data = null;
   let gettodosquery = "";
-  const { search_q = "", priority, status, category, dueDate } = request.query;
+  const { search_q = "", priority, status, category, due_date } = request.query;
   switch (true) {
     case haspriority(request.query):
       if (priority === "HIGH" || priority === "LOW" || priority === "MEDIUM") {
@@ -245,7 +245,7 @@ app.put("/todos/:todoId/", async (request, response) => {
     }
 });
 app.delete("/todos/:todoId/", async(request, response) => {
-    const todoId = request.params
+    const {todoId} = request.params
     const deleteQuery = `delete from todo where id=${todoId};`;
     await db.run(deleteQuery)
     response.send("Todo Deleted")
