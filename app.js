@@ -204,7 +204,7 @@ app.post("/todos/", async (request, response) => {
 });
 app.put("/todos/:todoId/", async (request, response) => {
   const { todoId } = request.params;
-  const { todoDetails } = request.body;
+  const todoDetails = request.body;
   const { todo, priority, status, dueDate, category } = todoDetails;
   switch (true) {
     case hasstatus(request.body):
